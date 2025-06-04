@@ -1,20 +1,27 @@
 import Fastify from 'fastify';
-import { PrismaClient } from '@prisma/client';
+import {
+  serializerCompiler,
+  validatorCompiler,
+  ZodTypeProvider, 
+} from 'fastify-type-provider-zod';
+import { clientRoutes } from './routes/client.routes';
 
 const server = Fastify({
   logger: true,
+}).withTypeProvider<ZodTypeProvider>(); 
+
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
+
+server.get('/healthcheck', async (request, reply) => {
+  return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
-const prisma = new PrismaClient();
-
-server.get('/', async (request, reply) => {
-  return { hello: 'world from Anka Tech backend!' };
-});
+server.register(clientRoutes, { prefix: '/api/clients' });
 
 const start = async () => {
   try {
-    await server.listen({ port: 3001, host: '0.0.0.0' }); 
-    server.log.info(`Servidor rodando em http://localhost:3001`);
+    await server.listen({ port: 3001, host: '0.0.0.0' });
   } catch (err) {
     server.log.error(err);
     process.exit(1);
