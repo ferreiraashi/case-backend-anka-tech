@@ -5,6 +5,7 @@ import {
   ZodTypeProvider, 
 } from 'fastify-type-provider-zod';
 import { clientRoutes } from './routes/client.routes';
+import { assetRoutes } from './routes/asset.routes';
 
 const server = Fastify({
   logger: true,
@@ -17,7 +18,11 @@ server.get('/healthcheck', async (request, reply) => {
   return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
+// Registrar as rotas de cliente com um prefixo
 server.register(clientRoutes, { prefix: '/api/clients' });
+
+// 2. Registrar as rotas de ativos com um prefixo
+server.register(assetRoutes, { prefix: '/api/assets' });
 
 const start = async () => {
   try {

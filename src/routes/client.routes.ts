@@ -15,6 +15,8 @@ import {
 } from '../schemas/client.schemas';
 
 export  async function clientRoutes(server: FastifyInstance) {
+
+  //rota pra criar um cliente
   server.post(
     '/',
     {
