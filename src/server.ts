@@ -6,10 +6,15 @@ import {
 } from 'fastify-type-provider-zod';
 import { clientRoutes } from './routes/client.routes';
 import { assetRoutes } from './routes/asset.routes';
+import fastifyCors from '@fastify/cors';
 
 const server = Fastify({
   logger: true,
 }).withTypeProvider<ZodTypeProvider>(); 
+
+server.register(fastifyCors, {
+  origin: true
+});
 
 server.setValidatorCompiler(validatorCompiler);
 server.setSerializerCompiler(serializerCompiler);
