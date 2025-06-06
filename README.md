@@ -60,9 +60,6 @@ docker-compose exec backend_anka npx prisma db seed
 Em um **novo terminal**, navegue até a pasta do frontend que você clonou e inicie o servidor de desenvolvimento.
 
 ```bash
-# Navegue até a pasta do frontend
-cd CAMINHO/PARA/SEU-REPO-FRONTEND
-
 # Instale as dependências
 npm install
 
