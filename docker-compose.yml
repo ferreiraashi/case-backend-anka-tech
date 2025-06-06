@@ -1,0 +1,34 @@
+services:
+  db:
+    image: mysql:8.0 
+    container_name: mysql_anka_db
+    restart: always 
+    environment:
+      MYSQL_ROOT_PASSWORD: anka2025
+      MYSQL_DATABASE: anka_db
+      MYSQL_USER: anka_user
+      MYSQL_PASSWORD: user2025
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend_anka
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "mysql://anka_user:user2025@db:3306/anka_db"
+      NODE_ENV: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    command: npm run dev
+volumes:
+  mysql_data:
