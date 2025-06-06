@@ -32,7 +32,7 @@ model Allocation {
   quantity   Int      
   clientId   String   
   assetId    String   
-  client     Client   @relation(fields: [clientId], references: [id])
+  client     Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
   asset      Asset    @relation(fields: [assetId], references: [id])
   assignedAt DateTime @default(now())
 }

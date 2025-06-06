@@ -27,22 +27,41 @@ export const findAllocationsByClientId = async (clientId: string) => {
 export const createAllocation = async (clientId: string, input: CreateAllocationInput) => {
   const { assetId, quantity } = input;
 
-  const allocation = await prisma.allocation.create({
-    data: {
-      clientId,
-      assetId,
-      quantity,
-    },
-    include: { 
-      asset: true,
+  const existingAllocation = await prisma.allocation.findFirst({
+    where: {
+      clientId: clientId,
+      assetId: assetId,
     },
   });
 
+  let updatedAllocation;
+
+  if (existingAllocation) {
+    updatedAllocation = await prisma.allocation.update({
+      where: {
+        id: existingAllocation.id,
+      },
+      data: {
+        quantity: existingAllocation.quantity + quantity,
+      },
+      include: { asset: true },
+    });
+  } else {
+    updatedAllocation = await prisma.allocation.create({
+      data: {
+        clientId,
+        assetId,
+        quantity,
+      },
+      include: { asset: true },
+    });
+  }
+
   return {
-    ...allocation,
+    ...updatedAllocation,
     asset: {
-      ...allocation.asset,
-      currentValue: allocation.asset.currentValue.toNumber()
+      ...updatedAllocation.asset,
+      currentValue: updatedAllocation.asset.currentValue.toNumber()
     }
   };
 };
