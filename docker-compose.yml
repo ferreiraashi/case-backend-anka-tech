@@ -2,12 +2,12 @@ services:
   db:
     image: mysql:8.0 
     container_name: mysql_anka_db
-    restart: always 
+    restart: no
     environment:
       MYSQL_ROOT_PASSWORD: anka2025
       MYSQL_DATABASE: anka_db
       MYSQL_USER: anka_user
-      MYSQL_PASSWORD: user2025
+      MYSQL_PASSWORD: user2025https://github.com/ferreiraashi/case-backend-anka-tech
     ports:
       - "3306:3306"
     volumes:
@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: backend_anka
-    restart: always
+    restart: no
     ports:
       - "3001:3001"
     environment:
