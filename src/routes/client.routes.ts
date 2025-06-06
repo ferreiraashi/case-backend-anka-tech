@@ -13,6 +13,8 @@ import {
   clientResponseSchema,
   clientsResponseSchema
 } from '../schemas/client.schemas';
+import { createAllocationHandler, getAllocationsHandler } from '../controllers/allocation.controler';
+import { createAllocationSchema } from '../schemas/allocation.schema';
 
 export  async function clientRoutes(server: FastifyInstance) {
 
@@ -67,6 +69,32 @@ export  async function clientRoutes(server: FastifyInstance) {
       },
     },
     deleteClientHandler
+  );
+
+
+// Rotas das alocações
+  server.get(
+    '/:id/allocations',
+    {
+      schema: {
+        tags: ['Clients', 'Allocations'],
+        params: clientIdParamsSchema,
+      },
+    },
+    getAllocationsHandler
+  );
+
+  // Rota para CRIAR uma nova alocação para um cliente
+  server.post(
+    '/:id/allocations',
+    {
+      schema: {
+        tags: ['Clients', 'Allocations'],
+        params: clientIdParamsSchema,
+        body: createAllocationSchema,
+      },
+    },
+    createAllocationHandler
   );
 
   server.log.info('Client routes registered');

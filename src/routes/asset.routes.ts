@@ -1,6 +1,5 @@
-
 import type { FastifyInstance } from 'fastify';
-import { getStaticAssetsHandler } from '../controllers/asset.controller';
+import { getAssetsHandler } from '../controllers/asset.controller';
 import { assetsResponseSchema } from '../schemas/asset.schemas';
 
 export async function assetRoutes(server: FastifyInstance) {
@@ -8,13 +7,12 @@ export async function assetRoutes(server: FastifyInstance) {
     '/',
     {
       schema: {
+        tags: ['Assets'],
         response: {
           200: assetsResponseSchema,
         },
       },
     },
-    getStaticAssetsHandler
+    getAssetsHandler 
   );
-
-  server.log.info('Static asset routes registered');
 }

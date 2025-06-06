@@ -11,11 +11,28 @@ datasource db {
 }
 
 model Client {
-  id     String  @id @default(uuid()) 
-  name   String
-  email  String  @unique
-  status String  
+  id          String       @id @default(uuid())
+  name        String
+  email       String       @unique
+  status      String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  allocations Allocation[]
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Asset {
+  id           String       @id @default(uuid())
+  name         String       @unique
+  currentValue Decimal      @db.Decimal(10, 2)
+  allocations  Allocation[]
+}
+
+model Allocation {
+  id         String   @id @default(uuid())
+  quantity   Int      
+  clientId   String   
+  assetId    String   
+  client     Client   @relation(fields: [clientId], references: [id])
+  asset      Asset    @relation(fields: [assetId], references: [id])
+  assignedAt DateTime @default(now())
 }

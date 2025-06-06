@@ -24,10 +24,10 @@ server.get('/healthcheck', async (request, reply) => {
   return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
-// Registrar as rotas de cliente com um prefixo
+// Rotas de cliente
 server.register(clientRoutes, { prefix: '/api/clients' });
 
-// 2. Registrar as rotas de ativos com um prefixo
+// Rotas de ativos
 server.register(assetRoutes, { prefix: '/api/assets' });
 
 const start = async () => {
