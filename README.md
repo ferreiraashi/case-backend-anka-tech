@@ -13,7 +13,7 @@ O backend é construído com Node.js, Fastify e Prisma, e é totalmente containe
 
 ## Pré-requisitos
 * **Docker** e **Docker Compose**
-* **Node.js** e **npm** (para executar o projeto frontend)
+* **Node.js v22** e **npm** (para executar o projeto frontend)
 
 ## 🚀 Guia de Execução da Aplicação Completa
 
@@ -50,10 +50,10 @@ Com os contêineres em execução, aplique as migrações do Prisma para criar a
 
 ```bash
 # Aplica as migrações existentes de forma segura
-docker-compose exec backend_anka npx prisma migrate deploy
+docker-compose exec backend npx prisma migrate deploy
 
 # Popula a tabela de ativos com dados iniciais
-docker-compose exec backend_anka npx prisma db seed
+docker-compose exec backend npx prisma db seed
 ```
 
 ### 5. Inicie o Frontend
